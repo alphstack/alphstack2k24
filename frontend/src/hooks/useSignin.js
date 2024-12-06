@@ -10,7 +10,7 @@ export const useSignin = () =>{
         setError(null);
         setIsLoading(false);
 
-        const response = await fetch(`${process.env.REACT_APP_API_URL}/user/signin`, {
+        const response = await fetch(`${process.env.REACT_APP_API}/api/user/signin`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
@@ -19,6 +19,7 @@ export const useSignin = () =>{
         })
         const json = await response.json();
         if(!response.ok){
+            console.log(json.error);
             setIsLoading(false);
             setError(json.error);
             setTimeout(() =>{

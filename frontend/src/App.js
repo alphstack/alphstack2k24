@@ -3,6 +3,7 @@ import Home from './pages/Home'
 import SignUp from './pages/SignUp';
 import SignIn from './pages/SignIn';
 import NavBar from './components/NavBar';
+import NotFound from './pages/notFound';
 function App() {
   return (
     <BrowserRouter>
@@ -21,6 +22,10 @@ function App() {
               path="/signup"
               element={<SignUp/>}
             />
+              <Route 
+              path="*"
+              element={<NotFound/>
+            }/>
           </Routes>
       </div>
     </BrowserRouter>

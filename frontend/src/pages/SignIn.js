@@ -1,36 +1,37 @@
 import React, { useState } from 'react';
+import { useAuthContext } from '../hooks/useAuthContext';
+import { useSignin } from "../hooks/useSignin";
+import {notFound} from "../pages/notFound"
 
 const SignIn = () => {
-    const [emailOrUsername, setEmailOrUsername] = useState('');
+    const { user } = useAuthContext();
+
+    const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
-    const [confirmPassword, setConfirmPassword] = useState('');
+    const { signin, error, isLoading } = useSignin();
 
-    const handleEmailOrUsernameChange = (e) => {
-        setEmailOrUsername(e.target.value);
+    const handleSubmit = async (e) => {
+        e.preventDefault(); 
+
+        signin(username, password);
     };
 
-    const handlePasswordChange = (e) => {
-        setPassword(e.target.value);
-    };
-
-    const handleConfirmPasswordChange = (e) => {
-        setConfirmPassword(e.target.value);
-    };
-
-    const handleSubmit = (e) => {
-        e.preventDefault();
-    };
+    if(user)
+        return (<notFound/>)
 
     return (
         <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '100vh', backgroundColor: '#fff', color: '#000' }}>
-            <form onSubmit={handleSubmit} style={{ border: '2px solid #000', padding: '30px', borderRadius: '5px', backgroundColor: '#fff', width: '400px' }}>
+            <form
+                onSubmit={handleSubmit} 
+                style={{ border: '2px solid #000', padding: '30px', borderRadius: '5px', backgroundColor: '#fff', width: '400px' }}
+            >
                 <div style={{ marginBottom: '15px' }}>
                     <label htmlFor="emailOrUsername" style={{ fontSize: '18px' }}>Email or Username:</label>
                     <input
                         type="text"
                         id="emailOrUsername"
-                        value={emailOrUsername}
-                        onChange={handleEmailOrUsernameChange}
+                        value={username}
+                        onChange={(e) => setUsername(e.target.value)}
                         style={{ width: '100%', padding: '15px', borderRadius: '5px', border: '2px solid #000', backgroundColor: '#fff', color: '#000', fontSize: '16px' }}
                     />
                 </div>
@@ -40,17 +41,7 @@ const SignIn = () => {
                         type="password"
                         id="password"
                         value={password}
-                        onChange={handlePasswordChange}
-                        style={{ width: '100%', padding: '15px', borderRadius: '5px', border: '2px solid #000', backgroundColor: '#fff', color: '#000', fontSize: '16px' }}
-                    />
-                </div>
-                <div style={{ marginBottom: '15px' }}>
-                    <label htmlFor="confirmPassword" style={{ fontSize: '18px' }}>Confirm Password:</label>
-                    <input
-                        type="password"
-                        id="confirmPassword"
-                        value={confirmPassword}
-                        onChange={handleConfirmPasswordChange}
+                        onChange={(e) => setPassword(e.target.value)}
                         style={{ width: '100%', padding: '15px', borderRadius: '5px', border: '2px solid #000', backgroundColor: '#fff', color: '#000', fontSize: '16px' }}
                     />
                 </div>

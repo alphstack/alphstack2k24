@@ -1,5 +1,6 @@
 import {Navbar, NavbarBrand, NavbarContent, NavbarItem, Link, Button, NavbarMenuToggle, NavbarMenuItem, NavbarMenu} from "@nextui-org/react";
 import {useState} from 'react';
+import { useAuthContext } from '../hooks/useAuthContext';
 
 const NavBar = () => {
     const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -16,7 +17,9 @@ const NavBar = () => {
         "Log Out",
       ];
 
+      const { user } = useAuthContext();
     return (
+        
         <Navbar isBordered maxWidth="full" onMenuOpenChange={setIsMenuOpen}>
             <NavbarMenuToggle
                 aria-label={isMenuOpen ? "Close menu" : "Open menu"}
@@ -43,14 +46,18 @@ const NavBar = () => {
                 </NavbarItem>
             </NavbarContent>
             <NavbarContent justify="end">
-                <NavbarItem className="hidden lg:flex">
-                <Link href="#">Login</Link>
-                </NavbarItem>
+                {!user &&
                 <NavbarItem>
                 <Button as={Link} color="primary" href="#" variant="flat">
-                    Sign Up
+                    Sign In
                 </Button>
                 </NavbarItem>
+                }
+                {user &&
+                    <NavbarItem>
+                        {user.username}
+                    </NavbarItem>
+                }
             </NavbarContent>
             <NavbarMenu>
             {menuItems.map((item, index) => (
