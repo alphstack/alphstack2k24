@@ -1,4 +1,4 @@
-import {Checkbox} from "@nextui-org/checkbox";
+import {Checkbox, Button} from "@nextui-org/react";
 
 const Home = () => {
     return (
@@ -6,6 +6,7 @@ const Home = () => {
             <div className="w-[50px] h-[50px] bg-gray-950">
                 test
                 <Checkbox defaultSelected>Option</Checkbox>
+                <Button color="primary">Button</Button>
             </div>
         </div>
     );
