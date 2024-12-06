@@ -17,7 +17,6 @@ const corsOptions = {
 
 app.use(cors(corsOptions));
 
-app.use(requestIp.mw());
 app.use(express.json());
 app.use(express.urlencoded({extended:false}));
 app.use((req, res, next) =>{
