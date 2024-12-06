@@ -14,7 +14,7 @@ module.exports = {
     nextui({
       prefix: "nextui", // prefix for themes variables
       addCommonColors: false, // override common colors (e.g. "blue", "green", "pink").
-      defaultTheme: "dark", // default theme from the themes object
+      defaultTheme: "light", // default theme from the themes object
       defaultExtendTheme: "darl", // default theme to extend on custom themes
       layout: {}, // common layout tokens (applied to all themes)
       themes: {
