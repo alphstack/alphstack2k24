@@ -5,6 +5,7 @@
   "dependencies": {
     "@nextui-org/react": "^2.6.2",
     "cra-template": "1.2.0",
+    "dotenv": "^16.4.7",
     "framer-motion": "^11.13.1",
     "react": "^19.0.0",
     "react-dom": "^19.0.0",
