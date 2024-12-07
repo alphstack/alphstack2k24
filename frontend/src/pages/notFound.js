@@ -12,7 +12,7 @@ export default function NotFound() {
           The page you are looking for does not exist. It might have been moved or deleted.
         </p>
         <button className="bg-white text-black py-2 px-4 border rounded border-gray-300 hover:bg-gray-200">
-          <Link className='no-underline text-black' to="/home">
+          <Link className='no-underline text-black' to="/">
             Go back home
           </Link>
         </button>

@@ -1,4 +1,5 @@
 import React, { useMemo, useRef, useState } from 'react';
+import NavBar from "../components/NavBar";
 
 const daysOfWeek = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
 const monthNames = [
@@ -90,6 +91,7 @@ export const CalendarPage = ({ onClick }) => {
 
   return (
     <div className="calendar-container max-h-full overflow-y-scroll rounded-t-2xl bg-white pb-10 text-slate-800 shadow-xl">
+      <NavBar navType={1}/>
       <div className="sticky -top-px z-50 w-full rounded-t-2xl bg-white px-5 pt-7 sm:px-8 sm:pt-8">
         <h2 className="text-lg font-semibold text-slate-800">
           Calendar - Starting from {monthNames[today.getMonth()]} {today.getFullYear()}
