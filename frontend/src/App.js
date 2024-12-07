@@ -6,6 +6,7 @@ import NavBar from './components/NavBar';
 import NotFound from './pages/notFound';
 import Subscriptions from './pages/Subscriptions';
 import {CalendarPage} from './pages/CalendarPage';
+import AIchat from './pages/AIchat';
 function App() {
   return (
     <BrowserRouter>
@@ -33,6 +34,10 @@ function Main() {
         <Route 
           path="/subscriptions"
           element={<Subscriptions/>}
+        />
+        <Route 
+          path="/aichat" 
+          element={<AIchat />} 
         />
         <Route 
           path="/signin" 
