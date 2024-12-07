@@ -1,63 +1,56 @@
 import React, { useState } from 'react';
+import {Input} from "@nextui-org/react";
+import {useNavigate} from 'react-router-dom';
+import { useSignup } from "../hooks/useSignup";
 import { useAuthContext } from '../hooks/useAuthContext';
-import { useSignin } from "../hooks/useSignin";
-import NotFound from '../pages/notFound';
+import NotFound from './notFound';
 
 const SignIn = () => {
-    const { user } = useAuthContext();
-
+    const [email, setEmail] = useState('');
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
-    const { signin, error, isLoading } = useSignin();
+    const [confirmPassword, setConfirmPassword] = useState('');
+    const { signup, error, isLoading } = useSignup();
 
-    const handleSubmit = async (e) => {
-        e.preventDefault(); 
+    const navigate = useNavigate();
 
-        signin(username, password);
+    const handleSubmit = (e) => {
+        e.preventDefault();
+
+        signup(username, email, password, confirmPassword);
     };
 
+    const { user } = useAuthContext();
+
     if(user)
-        return (<NotFound/>)
+        return <NotFound/>
 
     return (
-        <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '100vh', backgroundColor: '#fff', color: '#000' }}>
-            <form
-                onSubmit={handleSubmit} 
-                style={{ border: '2px solid #000', padding: '30px', borderRadius: '5px', backgroundColor: '#fff', width: '400px' }}
-            >
-                <div style={{ marginBottom: '15px' }}>
-                    <label htmlFor="emailOrUsername" style={{ fontSize: '18px' }}>Email or Username:</label>
-                    <input
-                        type="text"
-                        id="emailOrUsername"
-                        value={username}
-                        onChange={(e) => setUsername(e.target.value)}
-                        style={{ width: '100%', padding: '15px', borderRadius: '5px', border: '2px solid #000', backgroundColor: '#fff', color: '#000', fontSize: '16px' }}
-                    />
-                </div>
-                <div style={{ marginBottom: '15px' }}>
-                    <label htmlFor="password" style={{ fontSize: '18px' }}>Password:</label>
-                    <input
-                        type="password"
-                        id="password"
-                        value={password}
-                        onChange={(e) => setPassword(e.target.value)}
-                        style={{ width: '100%', padding: '15px', borderRadius: '5px', border: '2px solid #000', backgroundColor: '#fff', color: '#000', fontSize: '16px' }}
-                    />
-                </div>
+        <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center'}} className='mt-[15vh]'>
+            <form onSubmit={handleSubmit} 
+            className='flex flex-col gap-3'
+            style={{ border: '2px solid #DCDCDC', padding: '30px', borderRadius: '15px', width: '400px' }}>
+                    <div className="flex w-full flex-wrap md:flex-nowrap md:mb-0 gap-4">
+                        <Input label="Email" value={email} onChange={(e) => setEmail(e.target.value)}type="email" variant="bordered" />
+                    </div>
+                        <div>
+                        <div className="flex w-full flex-wrap md:flex-nowrap md:mb-0 gap-4">
+                        <Input label="Password" value={password} onChange={(e) => setPassword(e.target.value)} type="password" variant="bordered" />
+                        </div>
+                    </div>
                 <button
                     type="submit"
                     style={{
                         width: '100%',
                         padding: '15px',
-                        borderRadius: '5px',
-                        border: '2px solid #000',
+                        border: '2px solid #E4E4E7',
                         backgroundColor: '#fff',
                         color: '#000',
                         fontSize: '18px',
                         cursor: 'pointer',
                         transition: 'background-color 0.3s, color 0.3s'
                     }}
+                    className='rounded-xl mt-5'
                     onMouseOver={(e) => {
                         e.target.style.backgroundColor = '#000';
                         e.target.style.color = '#fff';
