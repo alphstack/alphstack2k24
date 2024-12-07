@@ -22,7 +22,7 @@ const UserSchema = new mongoose.Schema({
     tasks:{
         type: Array,
         required: true
-    }
+    },
 }, {timestamps: true});
 
 UserSchema.index({ email: 1 }, { unique: true });

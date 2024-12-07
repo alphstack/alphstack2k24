@@ -5,7 +5,7 @@ import SignIn from './pages/SignIn';
 import NavBar from './components/NavBar';
 import NotFound from './pages/notFound';
 import Subscriptions from './pages/Subscriptions';
-import {CalendarPage} from './pages/CalendarPage';
+import CalendarPage from './pages/CalendarPage';
 import AIchat from './pages/AIchat';
 function App() {
   return (
