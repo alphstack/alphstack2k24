@@ -109,15 +109,10 @@ import {
                 }
                 </NavbarContent>
                 }
-                {navType==1 && <NavbarContent className="hidden sm:flex gap-4" justify="center">
+                {(navType==1 || navType==2) && <NavbarContent className="hidden sm:flex gap-4" justify="center">
         <NavbarItem isActive={isActiveLink("/")}>
           <Link color={isActiveLink("/") ? "" : "foreground"} aria-current="page" href="./">
             Tasks
-          </Link>
-        </NavbarItem>
-        <NavbarItem isActive={isActiveLink("/subscriptions")}>
-          <Link color={isActiveLink("/AIchat") ? "" : "foreground"} href="/AIchat">
-            Chat
           </Link>
         </NavbarItem>
         <NavbarItem isActive={isActiveLink("/contact")}>
@@ -125,14 +120,25 @@ import {
             Calendar
           </Link>
         </NavbarItem>
+        <NavbarItem isActive={isActiveLink("/subscriptions")}>
+          <Link color={isActiveLink("/AIchat") ? "" : "foreground"} href="/AIchat">
+            Chat
+          </Link>
+        </NavbarItem>
       </NavbarContent>}
+      {(navType==1 || navType==2) && <NavbarContent justify="end">
+                <NavbarItem>
+                <Button onClick={() =>handleLogoutClick()} color="primary" variant="flat">
+                    Logout
+                </Button>
+                </NavbarItem>
                 {navType==1 &&
-            <NavbarContent justify="end">
                 <NavbarItem>
                 <Button onClick={() => setSlideIndex(1)} color="primary" variant="flat">
                     <Shell/>
                 </Button>
                 </NavbarItem>
+            }
             </NavbarContent>
             }
             <NavbarMenu>

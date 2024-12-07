@@ -96,7 +96,7 @@ const AIchat = () => {
 
   return (
     <div>
-    <NavBar navType={1}/>
+    <NavBar navType={2}/>
     <div className="flex h-[calc(100vh-96px)] bg-white text-black font-sans border border-gray-300 shadow-lg">
       <div className="w-48 bg-gray-200 p-5 border-r border-gray-300">
         <div className="mb-5">
