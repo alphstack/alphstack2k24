@@ -1,11 +1,27 @@
-import {Navbar, NavbarBrand, NavbarContent, NavbarItem, Link, Button, NavbarMenuToggle, NavbarMenuItem, NavbarMenu, 
-    Dropdown, DropdownTrigger, DropdownMenu, DropdownItem, Avatar} from "@nextui-org/react";
-import {useState} from 'react';
-import { useAuthContext } from '../hooks/useAuthContext';
-import { useLogout } from '../hooks/useLogout';
-import {useNavigate} from 'react-router-dom';
+import {
+    Navbar,
+    NavbarBrand,
+    NavbarContent,
+    NavbarItem,
+    Link,
+    Button,
+    NavbarMenuToggle,
+    NavbarMenuItem,
+    NavbarMenu,
+    Dropdown,
+    DropdownTrigger,
+    DropdownMenu,
+    DropdownItem,
+    Avatar,
+  } from "@nextui-org/react";
+  import { useState } from "react";
+  import { useAuthContext } from "../hooks/useAuthContext";
+  import { useLogout } from "../hooks/useLogout";
+  import { useNavigate } from "react-router-dom";
+  
+  import { Shell } from "lucide-react";
 
-const NavBar = () => {
+  const NavBar = ({ navType = 0, setSlideIndex=()=>{} }) => {
     const navigate = useNavigate();
 
     const {logout} = useLogout();
@@ -56,6 +72,7 @@ const NavBar = () => {
                 </Link>
                 </NavbarItem>
             </NavbarContent>
+            {navType==0 &&
             <NavbarContent justify="end">
                 {!user &&
                 <NavbarItem>
@@ -85,7 +102,17 @@ const NavBar = () => {
                         </Dropdown>
                     </NavbarItem>
                 }
+                </NavbarContent>
+                }
+                {navType==1 &&
+            <NavbarContent justify="end">
+                <NavbarItem>
+                <Button onClick={() => setSlideIndex(1)} color="primary" variant="flat">
+                    <Shell/>
+                </Button>
+                </NavbarItem>
             </NavbarContent>
+            }
             <NavbarMenu>
             {menuItems.map((item, index) => (
             <NavbarMenuItem key={`${item}-${index}`}>
