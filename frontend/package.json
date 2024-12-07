@@ -28,17 +28,17 @@
     ]
   },
   "browserslist": {
-    "production": [
-      ">0.2%",
-      "not dead",
-      "not op_mini all"
-    ],
-    "development": [
-      "last 1 chrome version",
-      "last 1 firefox version",
-      "last 1 safari version"
-    ]
-  },
+                "production": [
+                        "> 5%",
+                        "not dead",
+                        "not op_mini all"
+                ],
+                "development": [
+                        "> 5%",
+                        "not dead",
+                        "not op_mini all"
+                ]
+        },
   "devDependencies": {
     "autoprefixer": "^10.4.20",
     "postcss": "^8.4.49",

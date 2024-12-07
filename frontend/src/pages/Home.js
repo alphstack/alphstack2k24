@@ -1,14 +1,32 @@
 import {Checkbox, Button} from "@nextui-org/react";
 import React, { useState } from "react";
 import SwipeableViews from "react-swipeable-views";
-import { useSwipeable } from "react-swipeable-views";
+import { virtualize } from 'react-swipeable-views-utils';
 import NavBar from "../components/NavBar";
 import { StarsComponent } from "../components/StarComponent";
+const VirtualizeSwipeableViews = virtualize(SwipeableViews);
+
 const Home = () => {
     const [backgroundColor, setBackgroundColor] = useState("white");
     const [isSecondSlideVisible, setIsSecondSlideVisible] = useState(false);
-    const [swipeProgress, setSwipeProgress] = useState(0);
-    
+
+    function slideRenderer ({ index, key }) {
+      switch (index) {
+        case 0:
+          return (
+            <div key={key} class="w-screen h-screen bg-white">
+              <NavBar/>
+              <div class="w-screen">This is Slide 1</div>
+            </div>
+          )
+        case 1:
+        return (
+          <div key={key} class="w-screen h-screen bg-black overflow-y-hidden">
+            <StarsComponent particleAmount={3}/>
+          </div>
+        )
+      }
+    }
     const slides = [
       { id: 1, content: (<div>
         <NavBar/>
@@ -16,7 +34,7 @@ const Home = () => {
         </div>) },
       {
         id: 2,
-        content: (
+        content: isSecondSlideVisible ? (
           <div
             style={{
               opacity: isSecondSlideVisible ? 1 : 0,
@@ -24,14 +42,12 @@ const Home = () => {
             }}
           >
           <div
-            style={{
-              color: "white"
-            }}
+            class="h-screen"
           >
-            Custom Content for Slide 2
+            <StarsComponent/>
             </div>
           </div>
-        ),
+        ) : null,
       },
     ];
   
@@ -50,7 +66,7 @@ const Home = () => {
     // };
 
     const handleChangeIndex = (index) => {
-        setSwipeProgress((index / 1) * 100); // In this case, there is only one swipeable view, so index goes from 0 to 1
+      console.log("INDEX: "+index);
         if (index === 1) {
           setBackgroundColor("black");
           setIsSecondSlideVisible(true);
@@ -60,6 +76,11 @@ const Home = () => {
         }
       };
   
+      return <VirtualizeSwipeableViews
+       enableMouseEvents 
+       slideCount={2} 
+       slideRenderer={slideRenderer} 
+       />
     return (
       <div
         style={{
@@ -78,7 +99,7 @@ const Home = () => {
           style={{ height: "100%" }}
           hysteresis={1}
         >
-          {slides.map((slide) => (
+          {slides.map((slide, index) => (
             <div
               key={slide.id}
               style={{
