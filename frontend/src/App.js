@@ -5,6 +5,7 @@ import SignIn from './pages/SignIn';
 import NavBar from './components/NavBar';
 import NotFound from './pages/notFound';
 import Subscriptions from './pages/Subscriptions';
+import {CalendarPage} from './pages/CalendarPage';
 function App() {
   return (
     <BrowserRouter>
@@ -24,6 +25,10 @@ function Main() {
         <Route 
           path="/" 
           element={<Home />} 
+        />
+        <Route
+          path="/calendar"
+          element={<CalendarPage/>}
         />
         <Route 
           path="/subscriptions"
