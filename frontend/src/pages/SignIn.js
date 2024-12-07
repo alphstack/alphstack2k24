@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { useAuthContext } from '../hooks/useAuthContext';
 import { useSignin } from "../hooks/useSignin";
-import {notFound} from "../pages/notFound"
+import NotFound from '../pages/notFound';
 
 const SignIn = () => {
     const { user } = useAuthContext();
@@ -17,7 +17,7 @@ const SignIn = () => {
     };
 
     if(user)
-        return (<notFound/>)
+        return (<NotFound/>)
 
     return (
         <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '100vh', backgroundColor: '#fff', color: '#000' }}>

@@ -1,8 +1,16 @@
-import {Navbar, NavbarBrand, NavbarContent, NavbarItem, Link, Button, NavbarMenuToggle, NavbarMenuItem, NavbarMenu} from "@nextui-org/react";
+import {Navbar, NavbarBrand, NavbarContent, NavbarItem, Link, Button, NavbarMenuToggle, NavbarMenuItem, NavbarMenu, 
+    Dropdown, DropdownTrigger, DropdownMenu, DropdownItem, Avatar} from "@nextui-org/react";
 import {useState} from 'react';
 import { useAuthContext } from '../hooks/useAuthContext';
+import { useLogout } from '../hooks/useLogout';
 
 const NavBar = () => {
+    const {logout} = useLogout();
+
+    const handleLogoutClick = () =>{
+        logout();
+    }
+
     const [isMenuOpen, setIsMenuOpen] = useState(false);
     const menuItems = [
         "Profile",
@@ -55,7 +63,23 @@ const NavBar = () => {
                 }
                 {user &&
                     <NavbarItem>
-                        {user.username}
+                        <Dropdown placement="bottom-end">
+                            <DropdownTrigger>
+                            <Avatar
+                                isBordered
+                                color = "primary"
+                                showFallback
+                                name = {user.username.charAt(0).toUpperCase()}
+                                as="button"
+                                className="transition-transform"
+                            />
+                            </DropdownTrigger>
+                            <DropdownMenu aria-label="Profile Actions" variant="flat">
+                            <DropdownItem key="logout" color="danger" className="text-danger" onClick={handleLogoutClick}>
+                                Log Out
+                            </DropdownItem>
+                            </DropdownMenu>
+                        </Dropdown>
                     </NavbarItem>
                 }
             </NavbarContent>
