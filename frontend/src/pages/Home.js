@@ -3,7 +3,7 @@ import React, { useState } from "react";
 import SwipeableViews from "react-swipeable-views";
 import { useSwipeable } from "react-swipeable-views";
 import NavBar from "../components/NavBar";
-import { Stars } from "../components/Stars";
+import { StarsComponent } from "../components/StarComponent";
 const Home = () => {
     const [backgroundColor, setBackgroundColor] = useState("white");
     const [isSecondSlideVisible, setIsSecondSlideVisible] = useState(false);
@@ -30,7 +30,6 @@ const Home = () => {
           >
             Custom Content for Slide 2
             </div>
-            {/* <Stars/> */}
           </div>
         ),
       },
