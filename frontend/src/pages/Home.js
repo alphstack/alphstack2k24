@@ -51,7 +51,7 @@ const Home = () => {
             <h2 className="text-2xl font-bold mb-4 text-center">New Task</h2>
             <input
               type="text"
-              placeholder="Task Title"
+              placeholder="I want to lose 5kg by next month"
               value={newTaskTitle}
               onChange={(e) => setNewTaskTitle(e.target.value)}
               className="block w-full mb-2 p-2 border-2 border-gray-300 rounded hover:border-gray-500 transition duration-300"
