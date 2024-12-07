@@ -2,6 +2,7 @@ import React, { useState, useEffect, useRef } from 'react';
 import { useAuthContext } from '../hooks/useAuthContext';
 import { format } from 'date-fns';
 import {Spinner} from "@nextui-org/react"
+import NavBar from "../components/NavBar";
 
 export const Loading = () => {
     return ( 
@@ -94,6 +95,8 @@ const AIchat = () => {
   // const latestConversations = Object.keys(conversations).sort((a, b) => new Date(b) - new Date(a)).slice(0, 5);
 
   return (
+    <div>
+    <NavBar navType={1}/>
     <div className="flex h-[calc(100vh-96px)] bg-white text-black font-sans border border-gray-300 shadow-lg">
       <div className="w-48 bg-gray-200 p-5 border-r border-gray-300">
         <div className="mb-5">
@@ -137,6 +140,7 @@ const AIchat = () => {
           <button className="p-2 text-white bg-gray-700 rounded" onClick = {() => sendNewMessage()}>Send</button>
         </div>
       </div>
+    </div>
     </div>
   );
 };

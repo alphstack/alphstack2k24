@@ -17,7 +17,7 @@ function App() {
 
 function Main() {
   const location = useLocation(); 
-  const hideNavBar = location.pathname === '/';
+  const hideNavBar = location.pathname === '/' || location.pathname === '/calendar' || location.pathname === '/AIchat';
 
   return (
     <div className="App">

@@ -1,12 +1,15 @@
 import { virtualize } from 'react-swipeable-views-utils';
 import NavBar from "../components/NavBar";
 import { StarsComponent } from "../components/StarComponent";
+import WelcomePage from "./WelcomePage"
 import React, { useState, useEffect, useRef } from "react";
 import SwipeableViews from "react-swipeable-views";
 import {CalendarPlus} from 'lucide-react'
+import { useAuthContext } from '../hooks/useAuthContext';
 const VirtualizeSwipeableViews = virtualize(SwipeableViews);
 
 const Home = () => {
+  const { user } = useAuthContext();
   const [tasks, setTasks] = useState([]);
   const [newTaskTitle, setNewTaskTitle] = useState("");
   const [selectedTask, setSelectedTask] = useState(null);
@@ -47,7 +50,7 @@ const Home = () => {
 
       {isNewTaskModalOpen && (
         <div className="fixed inset-0 bg-gray-600 bg-opacity-50 flex justify-center items-center">
-          <div ref={modalRef} className="bg-white p-5 rounded shadow-lg">
+          <div ref={modalRef} className="bg-white p-6 rounded shadow-lg w-1/2">
             <h2 className="text-2xl font-bold mb-4 text-center">New Task</h2>
             <input
               type="text"
@@ -129,9 +132,17 @@ const Home = () => {
       };
   
   return (
-      <div className="h-full">
+    <div>
+      {user && <div className="h-full">
         <VirtualizeSwipeableViews enableMouseEvents slideCount={2} slideRenderer={slideRenderer} index={slideIndex} onChangeIndex={handleChangeIndex}/>  
-      </div>
+      </div>}
+      {!user && 
+        <div>
+          <NavBar/>
+          <WelcomePage/>
+        </div>
+      }
+    </div>
   );
 };
 
