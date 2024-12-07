@@ -21,7 +21,55 @@ const Home = () => {
           return (
             <div key={key} class="w-screen h-screen bg-white">
               <NavBar navType={1} setSlideIndex={setSlideIndex}/>
-              <div class="w-screen">This is Slide 1</div>
+              <div className={`h-[calc(100vh-96px)] w-screen`}>
+      {currentIndex === 0 && (
+        <div className="flex flex-col items-center justify-start h-full pt-10">
+          <div className="w-1/3 bg-gray-100 p-5 rounded shadow min-h-[125px]">
+            <h2 className="text-xl font-semibold mb-4 text-gray-800">My Tasks</h2>
+            <ul>
+              {tasks.map((task, index) => (
+                <li key={index} className="flex items-center mb-2 cursor-pointer text-gray-700" onClick={() => openTaskDetails(task)}>
+                  <span>{task.title}</span>
+                </li>
+              ))}
+            </ul>
+          </div>
+        </div>
+      )}
+      
+      {isModalOpen && (
+        <div className="fixed inset-0 bg-gray-600 bg-opacity-50 flex justify-center items-center">
+          <div ref={modalRef} className="bg-white p-5 rounded shadow-lg">
+            <h2 className="text-2xl font-bold mb-4">{selectedTask.title}</h2>
+          </div>
+        </div>
+      )}
+
+      {isNewTaskModalOpen && (
+        <div className="fixed inset-0 bg-gray-600 bg-opacity-50 flex justify-center items-center">
+          <div ref={modalRef} className="bg-white p-5 rounded shadow-lg">
+            <h2 className="text-2xl font-bold mb-4 text-center">New Task</h2>
+            <input
+              type="text"
+              placeholder="Task Title"
+              value={newTaskTitle}
+              onChange={(e) => setNewTaskTitle(e.target.value)}
+              className="block w-full mb-2 p-2 border-2 border-gray-300 rounded hover:border-gray-500 transition duration-300"
+            />
+            <button onClick={addTask} className="w-full px-4 py-2 bg-gray-800 text-white rounded hover:bg-gray-700 transition duration-300">
+             Add Task
+            </button>
+          </div>
+        </div>
+      )}
+
+      <button
+        onClick={openNewTaskModal}
+        className="fixed bottom-5 right-5 px-4 py-2 bg-gray-800 text-white rounded-full shadow-lg hover:bg-gray-700 transition duration-300"
+      >
+        <CalendarPlus />
+      </button>
+    </div>
             </div>
           )
         case 1:
@@ -81,59 +129,9 @@ const Home = () => {
       };
   
   return (
-    <div className={`h-[calc(100vh-96px)] w-screen ${backgroundColor === "black" ? "bg-black" : "bg-white"}`}>
-      <NavBar />
-      {currentIndex === 0 && (
-        <div className="flex flex-col items-center justify-start h-full pt-10">
-          <div className="w-1/3 bg-gray-100 p-5 rounded shadow min-h-[125px]">
-            <h2 className="text-xl font-semibold mb-4 text-gray-800">My Tasks</h2>
-            <ul>
-              {tasks.map((task, index) => (
-                <li key={index} className="flex items-center mb-2 cursor-pointer text-gray-700" onClick={() => openTaskDetails(task)}>
-                  <span>{task.title}</span>
-                </li>
-              ))}
-            </ul>
-          </div>
-        </div>
-      )}
       <div className="h-full">
         <VirtualizeSwipeableViews enableMouseEvents slideCount={2} slideRenderer={slideRenderer} index={slideIndex} onChangeIndex={handleChangeIndex}/>  
       </div>
-      
-      {isModalOpen && (
-        <div className="fixed inset-0 bg-gray-600 bg-opacity-50 flex justify-center items-center">
-          <div ref={modalRef} className="bg-white p-5 rounded shadow-lg">
-            <h2 className="text-2xl font-bold mb-4">{selectedTask.title}</h2>
-          </div>
-        </div>
-      )}
-
-      {isNewTaskModalOpen && (
-        <div className="fixed inset-0 bg-gray-600 bg-opacity-50 flex justify-center items-center">
-          <div ref={modalRef} className="bg-white p-5 rounded shadow-lg">
-            <h2 className="text-2xl font-bold mb-4 text-center">New Task</h2>
-            <input
-              type="text"
-              placeholder="Task Title"
-              value={newTaskTitle}
-              onChange={(e) => setNewTaskTitle(e.target.value)}
-              className="block w-full mb-2 p-2 border-2 border-gray-300 rounded hover:border-gray-500 transition duration-300"
-            />
-            <button onClick={addTask} className="w-full px-4 py-2 bg-gray-800 text-white rounded hover:bg-gray-700 transition duration-300">
-             Add Task
-            </button>
-          </div>
-        </div>
-      )}
-
-      <button
-        onClick={openNewTaskModal}
-        className="fixed bottom-5 right-5 px-4 py-2 bg-gray-800 text-white rounded-full shadow-lg hover:bg-gray-700 transition duration-300"
-      >
-        <CalendarPlus />
-      </button>
-    </div>
   );
 };
 
