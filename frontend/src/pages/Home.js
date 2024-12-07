@@ -7,14 +7,32 @@ import {CalendarPlus} from 'lucide-react'
 const VirtualizeSwipeableViews = virtualize(SwipeableViews);
 
 const Home = () => {
-  const [backgroundColor, setBackgroundColor] = useState("white");
-  const [isSecondSlideVisible, setIsSecondSlideVisible] = useState(false);
   const [tasks, setTasks] = useState([]);
   const [newTaskTitle, setNewTaskTitle] = useState("");
   const [selectedTask, setSelectedTask] = useState(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isNewTaskModalOpen, setIsNewTaskModalOpen] = useState(false);
   const [currentIndex, setCurrentIndex] = useState(0);
+  const [slideIndex, setSlideIndex] = useState(0);
+
+  function slideRenderer ({ index, key }) {
+      switch (index) {
+        case 0:
+          return (
+            <div key={key} class="w-screen h-screen bg-white">
+              <NavBar navType={1} setSlideIndex={setSlideIndex}/>
+              <div class="w-screen">This is Slide 1</div>
+            </div>
+          )
+        case 1:
+        return (
+          <div key={key} class="w-screen h-screen bg-black overflow-y-hidden">
+            <StarsComponent particleAmount={100}/>
+          </div>
+        )
+      }
+    }
+  
   const modalRef = useRef();
 
   const addTask = () => {
@@ -57,35 +75,11 @@ const Home = () => {
     };
   }, []);
 
-  function slideRenderer({ index, key }) {
-    switch (index) {
-      case 0:
-        return (
-          <div key={key} className="w-screen h-screen bg-white">
-            {/* Slide 1 content */}
-          </div>
-        );
-      case 1:
-        return (
-          <div key={key} className="w-screen h-screen bg-black overflow-y-hidden">
-            <StarsComponent particleAmount={3} />
-          </div>
-        );
-    }
-  }
-
   const handleChangeIndex = (index) => {
-    console.log("INDEX: " + index);
-    setCurrentIndex(index);
-    if (index === 1) {
-      setBackgroundColor("black");
-      setIsSecondSlideVisible(true);
-    } else {
-      setBackgroundColor("white");
-      setIsSecondSlideVisible(false);
-    }
-  };
-
+      setSlideIndex(index);
+      console.log("new indx: "+index);
+      };
+  
   return (
     <div className={`h-[calc(100vh-96px)] w-screen ${backgroundColor === "black" ? "bg-black" : "bg-white"}`}>
       <NavBar />
@@ -104,7 +98,7 @@ const Home = () => {
         </div>
       )}
       <div className="h-full">
-        <VirtualizeSwipeableViews enableMouseEvents slideCount={2} slideRenderer={slideRenderer} onChangeIndex={handleChangeIndex} />
+        <VirtualizeSwipeableViews enableMouseEvents slideCount={2} slideRenderer={slideRenderer} index={slideIndex} onChangeIndex={handleChangeIndex}/>  
       </div>
       
       {isModalOpen && (
