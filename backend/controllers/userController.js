@@ -92,7 +92,9 @@ const signup = async (req, res) =>{
             username,
             email,
             password: hashedPassword,
-            prompts: [{role: 'system', content:'Tu esti un terapeut, psiholog si trebuie sa consulti oamenii legat de activitatile lor zilnice, nu ai voie sa raspunzi la intrebari out of context.'}]
+            prompts: [{role: 'system', content:'Tu esti un terapeut, psiholog si trebuie sa consulti oamenii legat de activitatile lor zilnice, nu ai voie sa raspunzi la intrebari out of context.'}],
+            tasks: []
+        
         }
 
         const user = await userModel.create(data);

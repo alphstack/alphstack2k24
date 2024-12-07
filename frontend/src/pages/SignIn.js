@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import {Input} from "@nextui-org/react";
 import {useNavigate} from 'react-router-dom';
-import { useSignup } from "../hooks/useSignup";
+import { useSignin } from "../hooks/useSignin";
 import { useAuthContext } from '../hooks/useAuthContext';
 import NotFound from './notFound';
 
@@ -9,14 +9,14 @@ const SignIn = () => {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [confirmPassword, setConfirmPassword] = useState('');
-    const { signup, error, isLoading } = useSignup();
+    const { signin, error, isLoading } = useSignin();
 
     const navigate = useNavigate();
 
     const handleSubmit = (e) => {
         e.preventDefault();
 
-        signup( email, password, confirmPassword);
+        signin( email, password);
     };
 
     const { user } = useAuthContext();
@@ -30,7 +30,7 @@ const SignIn = () => {
             className='flex flex-col gap-3'
             style={{ border: '2px solid #DCDCDC', padding: '30px', borderRadius: '15px', width: '400px' }}>
                     <div className="flex w-full flex-wrap md:flex-nowrap md:mb-0 gap-4">
-                        <Input label="Email" value={email} onChange={(e) => setEmail(e.target.value)}type="email" variant="bordered" />
+                        <Input label="Email" value={email} onChange={(e) => setEmail(e.target.value)} variant="bordered" />
                     </div>
                         <div>
                         <div className="flex w-full flex-wrap md:flex-nowrap md:mb-0 gap-4">

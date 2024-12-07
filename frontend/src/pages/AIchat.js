@@ -124,7 +124,7 @@ const AIchat = () => {
                 {conv.role === 'assistant' && 
                 <div className="mb-2 text-black"><strong className="text-green-500">AI:</strong> {conv.content}</div>
                 }
-              </div>
+              </div> 
             ))
           ) : (
             <div className="text-black">No conversation found for this date.</div>
