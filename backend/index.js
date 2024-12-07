@@ -4,6 +4,7 @@ const mongoose = require('mongoose');
 const cors = require('cors');
 const bcrypt = require('bcryptjs');
 const userRoutes = require('./routes/userRoutes');
+const aichatRoutes = require('./routes/aichatRoutes')
 
 const app = express();
 
@@ -30,6 +31,7 @@ app.use((req, res, next) =>{
  })
 
 app.use(('/api/user'), userRoutes);
+app.use(('/api/aichat'), aichatRoutes);
 
  mongoose.connect(process.env.mongoDB)
     .then(() => {
