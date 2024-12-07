@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import {Button} from "@nextui-org/react";
+import {Input} from "@nextui-org/react";
 
 const SignUp = () => {
     const [emailOrUsername, setEmailOrUsername] = useState('');
@@ -24,42 +24,51 @@ const SignUp = () => {
 
     return (
         <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '100vh', backgroundColor: '#fff', color: '#000' }}>
-            <form onSubmit={handleSubmit} style={{ border: '2px solid #000', padding: '30px', borderRadius: '5px', backgroundColor: '#fff', width: '400px' }}>
+            <form onSubmit={handleSubmit} style={{ border: '2px solid #000', padding: '30px', borderRadius: '15px', backgroundColor: '#fff', width: '400px' }}>
+            <div className="w-full flex flex-col ">
+        
+        <div className="flex w-full flex-wrap md:flex-nowrap mb-6 md:mb-0 gap-4">
+          <Input label="Email" type="email" variant="bordered" />
+        </div>
+            </div>
                 <div style={{ marginBottom: '15px' }}>
-                    <label htmlFor="emailOrUsername" style={{ fontSize: '18px' }}>Email or Username:</label>
-                    <input
-                        type="text"
-                        id="emailOrUsername"
-                        value={emailOrUsername}
-                        onChange={handleEmailOrUsernameChange}
-                        style={{ width: '100%', padding: '15px', borderRadius: '5px', border: '2px solid #000', backgroundColor: '#fff', color: '#000', fontSize: '16px' }}
-                    />
+                    
+                    <div className="flex w-full flex-wrap md:flex-nowrap mb-6 md:mb-0 gap-4">
+          <Input label="Password" type="password" variant="bordered" />
+        </div>
                 </div>
                 <div style={{ marginBottom: '15px' }}>
-                    <label htmlFor="password" style={{ fontSize: '18px' }}>Password:</label>
-                    <input
-                        type="password"
-                        id="password"
-                        value={password}
-                        onChange={handlePasswordChange}
-                        style={{ width: '100%', padding: '15px', borderRadius: '5px', border: '2px solid #000', backgroundColor: '#fff', color: '#000', fontSize: '16px' }}
-                    />
+                    
+                    <div className="flex w-full flex-wrap md:flex-nowrap mb-6 md:mb-0 gap-4">
+          <Input label="Rewrite password" type="password" variant="bordered" />
+        </div>
                 </div>
-                <div style={{ marginBottom: '15px' }}>
-                    <label htmlFor="confirmPassword" style={{ fontSize: '18px' }}>Confirm Password:</label>
-                    <input
-                        type="password"
-                        id="confirmPassword"
-                        value={confirmPassword}
-                        onChange={handleConfirmPasswordChange}
-                        style={{ width: '100%', padding: '15px', borderRadius: '5px', border: '2px solid #000', backgroundColor: '#fff', color: '#000', fontSize: '16px' }}
-                    />
-                </div>
-                <Button color="primary" variant="ghost">
+                <button
+                    type="submit"
+                    style={{
+                        width: '100%',
+                        padding: '15px',
+                        borderRadius: '5px',
+                        border: '2px solid #000',
+                        backgroundColor: '#fff',
+                        color: '#000',
+                        fontSize: '18px',
+                        cursor: 'pointer',
+                        transition: 'background-color 0.3s, color 0.3s'
+                    }}
+                    onMouseOver={(e) => {
+                        e.target.style.backgroundColor = '#000';
+                        e.target.style.color = '#fff';
+                    }}
+                    onMouseOut={(e) => {
+                        e.target.style.backgroundColor = '#fff';
+                        e.target.style.color = '#000';
+                    }}
+                >
                     Sign Up
-                </Button>
+                </button>
                 <div style={{ marginTop: '15px', textAlign: 'center' }}>
-                    <span>Already have an account? <p class="text-red">Sign in</p></span>
+                    <span>Already have an account? Sign in</span>
                 </div>
             </form>
         </div>
