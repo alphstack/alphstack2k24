@@ -5,7 +5,7 @@ import Particles, { initParticlesEngine } from "@tsparticles/react";
 import { loadSlim } from "@tsparticles/slim"; // if you are going to use `loadSlim`, install the "@tsparticles/slim" package too.
 // import { loadBasic } from "@tsparticles/basic"; // if you are going to use `loadBasic`, install the "@tsparticles/basic" package too.
 
-export const StarsComponent = () => {
+export const StarsComponent = ({particleAmount}) => {
   const [init, setInit] = useState(false);
 
   // this should be run only once per application lifetime
@@ -29,9 +29,10 @@ export const StarsComponent = () => {
 
   const options = useMemo(
     () => ({
+    fullScreen: { enable: false, zIndex: 0 },
       background: {
         color: {
-          value: "#0d47a1",
+          value: "transparent"
         },
       },
       fpsLimit: 120,
@@ -39,7 +40,7 @@ export const StarsComponent = () => {
         events: {
           onClick: {
             enable: true,
-            mode: "push",
+            mode: "repulse",
           },
           onHover: {
             enable: true,
@@ -47,9 +48,6 @@ export const StarsComponent = () => {
           },
         },
         modes: {
-          push: {
-            quantity: 4,
-          },
           repulse: {
             distance: 200,
             duration: 0.4,
@@ -74,14 +72,14 @@ export const StarsComponent = () => {
             default: "bounce",
           },
           random: false,
-          speed: 6,
+          speed: 1,
           straight: false,
         },
         number: {
           density: {
-            enable: true,
+            enable: false,
           },
-          value: 80,
+          value: particleAmount,
         },
         opacity: {
           value: 0.5,
@@ -90,10 +88,10 @@ export const StarsComponent = () => {
           type: "circle",
         },
         size: {
-          value: { min: 1, max: 5 },
+          value: { min: 3, max: 5 },
         },
       },
-      detectRetina: true,
+      detectRetina: false,
     }),
     [],
   );
