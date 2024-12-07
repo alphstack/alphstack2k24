@@ -20,7 +20,25 @@ module.exports = {
       themes: {
         light: {
           layout: {}, // light theme layout tokens
-          colors: {}, // light theme colors
+          colors: {
+            background: "#ffffff",
+            foreground: "#000000",
+            primary: {
+              50: "#fff8ed",
+              100: "#ffebc8",
+              200: "#fedcaa",
+              300: "#fdc374",
+              400: "#fb9e3c",
+              500: "#f98216",
+              600: "#ea660c",
+              700: "#c24d0c",
+              800: "#9a3d12",
+              900: "#7c3412",
+              DEFAULT: "#fdc374",
+              foreground: "#fdc374",
+            },
+            focus: "#F182F6",
+          }, // light theme colors
         },
         dark: {
           layout: {}, // dark theme layout tokens
