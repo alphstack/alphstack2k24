@@ -63,7 +63,7 @@ const SignIn = () => {
                 </button>
                 <div style={{ marginTop: '0px', textAlign: 'center' }}>
                     <span>Don't have an account?
-                        <p className='text-blue-400 cursor-pointer' onClick={() => navigate('/signin')}>
+                        <p className='text-blue-400 cursor-pointer' onClick={() => navigate('/signup')}>
                             Sign Up
                         </p> 
                     </span>

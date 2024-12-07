@@ -3,8 +3,11 @@ import {Navbar, NavbarBrand, NavbarContent, NavbarItem, Link, Button, NavbarMenu
 import {useState} from 'react';
 import { useAuthContext } from '../hooks/useAuthContext';
 import { useLogout } from '../hooks/useLogout';
+import {useNavigate} from 'react-router-dom';
 
 const NavBar = () => {
+    const navigate = useNavigate();
+
     const {logout} = useLogout();
 
     const handleLogoutClick = () =>{
@@ -33,7 +36,7 @@ const NavBar = () => {
                 aria-label={isMenuOpen ? "Close menu" : "Open menu"}
                 className="sm:hidden"
             />
-            <NavbarBrand>
+            <NavbarBrand className="cursor-pointer" onClick={() => navigate('/')}>
                 <p className="font-bold text-inherit">HOME</p>
             </NavbarBrand>
             <NavbarContent className="hidden sm:flex gap-4" justify="center">
@@ -56,7 +59,7 @@ const NavBar = () => {
             <NavbarContent justify="end">
                 {!user &&
                 <NavbarItem>
-                <Button as={Link} color="primary" href="#" variant="flat">
+                <Button onClick={() => navigate('/signin')} color="primary" variant="flat">
                     Sign In
                 </Button>
                 </NavbarItem>
