@@ -49,17 +49,17 @@ export const StarsComponent = ({particleAmount}) => {
         },
         modes: {
           repulse: {
-            distance: 200,
+            distance: 100,
             duration: 0.4,
           },
         },
       },
       particles: {
         color: {
-          value: "#ffffff",
+          value: "#fdc374",
         },
         links: {
-          color: "#ffffff",
+          color: "#fff8ed",
           distance: 150,
           enable: true,
           opacity: 0.5,
@@ -82,13 +82,13 @@ export const StarsComponent = ({particleAmount}) => {
           value: particleAmount,
         },
         opacity: {
-          value: 0.5,
+          value: { min: 0.1, max:0.5 },
         },
         shape: {
           type: "circle",
         },
         size: {
-          value: { min: 3, max: 5 },
+          value: { min: 3, max: 10 },
         },
       },
       detectRetina: false,
