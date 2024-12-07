@@ -127,11 +127,14 @@ const CalendarPage = ({ onClick }) => {
             day === today.getDate() &&
             month === today.getMonth() &&
             year === today.getFullYear();
-  
+          
+          // Verificăm dacă data este mai veche decât data de azi
+          const isPastDate = new Date(year, month, day) < today;
+      
           // Filtrăm taskurile care au deadline-ul în acea zi
           const dailyEvents = events.filter((e) => {
             if (!e.taskDeadline) return false; // Ignoră task-urile fără deadline
-  
+      
             // Task deadline in format 'yyyy-mm-dd'
             const taskDate = new Date(e.taskDeadline); // Creăm un obiect Date din taskDeadline
             
@@ -142,72 +145,89 @@ const CalendarPage = ({ onClick }) => {
               taskDate.getDate() === day
             );
           });
-  
+      
           return (
-              <div
-                key={`${month}-${day}`}
-                ref={(el) => { dayRefs.current[index] = el; }}
-                data-month={month}
-                data-day={day}
-                className={`relative z-10 m-[-0.5px] group flex aspect-[1.3] w-full rounded-xl border font-medium transition-all hover:z-20 hover:border-cyan-400 ${
-                  isToday 
-                    ? 'bg-[#FDC374]/70 text-white rounded-xl shadow-custom backdrop-blur-sm border border-white/30' // transparent portocaliu
-                    : 'text-slate-800'
-                }`}                
-              >
+            <div
+              key={`${month}-${day}`}
+              ref={(el) => { dayRefs.current[index] = el; }}
+              data-month={month}
+              data-day={day}
+              className={`relative z-10 m-[-0.5px] group flex aspect-[1.3] w-full rounded-xl border font-medium border-gray-300 transition-all hover:z-20 hover:border-cyan-400 ${
+                isToday 
+                  ? 'bg-[#FDC374]/70 text-white rounded-xl shadow-custom backdrop-blur-sm border border-white/30' // transparent portocaliu
+                  : isPastDate 
+                  ? 'bg-gray-200 text-gray-500' // Culoare gri pentru datele mai vechi decât azi
+                  : 'text-slate-800'
+              }`}
+            >
               <span
                 className={`absolute left-1 top-1 flex items-center justify-center rounded-full text-base sm:text-lg lg:text-xl font-semibold`}
               >
                 {day}
               </span>
-  
+    
               {/* Afișează toate taskurile pentru ziua respectivă */}
               {dailyEvents.length > 0 && (
               <div className="mx-auto mt-7 flex flex-col gap-1 text-xs sm:text-sm lg:text-base">
-                {dailyEvents.map((event, idx) => (
-                  <div
-                    key={idx}
-                    className={`flex items-center justify-between space-x-2 p-1 rounded-lg ${
-                      event.completed ? 'text-green-500' : 'text-red-500'
-                    }`}
-                  >
-                    <div className="flex items-center space-x-1">
-                      <span>{event.taskEmoji}</span>
-                      <span>{event.taskName}</span>
-                    </div>
-                    <div className="flex items-center space-x-2">
-                      {/* Buton pentru Mark as Done/Undo */}
-                      <button
-                        className={`rounded px-2 py-1 text-xs font-semibold ${
-                          event.completed ? 'bg-green-100 text-green-800' : 'bg-red-100 text-red-800'
-                        }`}
-                        onClick={() =>
-                          event.completed ? handleUndo(event.taskId) : handleDone(event.taskId)
-                        }
-                      >
-                        {event.completed ? 'Undo' : 'Mark as Done'}
-                      </button>
-                      {/* Icon pentru ștergere */}
-                      {!event.completed && (
+                {dailyEvents.map((event, idx) => {
+                  // Verificăm dacă task-ul este mai vechi decât ziua de azi
+                  const isPastDate = new Date(event.taskDeadline) < today;
+                  
+                  return (
+                    <div
+                      key={idx}
+                      className={`flex items-center justify-between space-x-2 p-1 rounded-lg ${
+                        event.completed ? 'text-green-500' : 'text-red-500'
+                      }`}
+                    >
+                      <div className="flex items-center space-x-1">
+                        <span>{event.taskEmoji}</span>
+                        <span>{event.taskName}</span>
+                      </div>
+                      <div className="flex items-center space-x-2">
+                        {/* Buton pentru Mark as Done/Undo */}
                         <button
-                          className="text-gray-400 hover:text-gray-700"
-                          onClick={() => handleDeleteTask(event.taskId)}
-                          title="Delete Task"
+                          className={`rounded px-2 py-1 text-xs font-semibold ${
+                            event.completed
+                              ? 'bg-green-100 text-green-800'
+                              : isPastDate && !event.completed
+                              ? 'bg-red-700 text-white' // Roșu închis pentru taskurile vechi nerealizate
+                              : 'bg-red-100 text-red-800'
+                          }`}
+                          onClick={() =>
+                            event.completed
+                              ? handleUndo(event.taskId)
+                              : isPastDate && !event.completed
+                              ? null // Nu se poate face Mark as Done pentru task-urile vechi nerealizate
+                              : handleDone(event.taskId)
+                          }
                         >
-                          🗑️
+                          {event.completed
+                            ? 'Undo'
+                            : isPastDate && !event.completed
+                            ? 'Failed' // textul schimbat pentru task-urile vechi nerealizate
+                            : 'Mark as Done'}
                         </button>
-                      )}
+                        {/* Icon pentru ștergere */}
+                        {!event.completed && !isPastDate && (
+                          <button
+                            className="text-gray-400 hover:text-gray-700"
+                            onClick={() => handleDeleteTask(event.taskId)}
+                            title="Delete Task"
+                          >
+                            🗑️
+                          </button>
+                        )}
+                      </div>
                     </div>
-                  </div>
-                ))}
+                  );
+                })}
               </div>
             )}
 
-
-
-  
+    
               {index === 0 || calendarDays[index - 1].month !== month ? (
-                <span className="absolute bottom-2 left-2 w-full text-sm font-semibold text-slate-300 sm:text-base lg:text-lg">
+                <span className="absolute bottom-2 left-2 w-full text-sm font-semibold text-slate-500 sm:text-base lg:text-lg">
                   {monthNames[month]} {year}
                 </span>
               ) : null}
@@ -216,6 +236,7 @@ const CalendarPage = ({ onClick }) => {
         })}
       </div>
     ));
+    
   }, [year, selectedMonth, events]);
 
   return (
