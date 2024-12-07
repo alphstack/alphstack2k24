@@ -70,6 +70,14 @@ const NavBar = ({ navType = 0, setSlideIndex = () => {} }) => {
               About
             </Link>
           </NavbarItem>
+          <NavbarItem isActive={isActiveLink("/subscriptions")}>
+            <Link
+              color={isActiveLink("/subscriptions") ? "" : "foreground"}
+              href="/subscriptions"
+            >
+              Pricing
+            </Link>
+          </NavbarItem>
         </NavbarContent>
       )}
       {user && (
@@ -91,7 +99,7 @@ const NavBar = ({ navType = 0, setSlideIndex = () => {} }) => {
               Calendar
             </Link>
           </NavbarItem>
-          <NavbarItem isActive={isActiveLink("/subscriptions")}>
+          <NavbarItem isActive={isActiveLink("/AIchat")}>
             <Link
               color={isActiveLink("/AIchat") ? "" : "foreground"}
               href="/AIchat"
