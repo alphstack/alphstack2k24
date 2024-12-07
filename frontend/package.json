@@ -10,6 +10,7 @@
     "date-fns": "^4.1.0",
     "dotenv": "^16.4.7",
     "framer-motion": "^11.13.1",
+    "lucide-react": "^0.468.0",
     "react": "^18.3.1",
     "react-dom": "^18.3.1",
     "react-router-dom": "^7.0.2",
@@ -29,17 +30,17 @@
     ]
   },
   "browserslist": {
-                "production": [
-                        "> 5%",
-                        "not dead",
-                        "not op_mini all"
-                ],
-                "development": [
-                        "> 5%",
-                        "not dead",
-                        "not op_mini all"
-                ]
-        },
+    "production": [
+      "> 5%",
+      "not dead",
+      "not op_mini all"
+    ],
+    "development": [
+      "> 5%",
+      "not dead",
+      "not op_mini all"
+    ]
+  },
   "devDependencies": {
     "autoprefixer": "^10.4.20",
     "postcss": "^8.4.49",

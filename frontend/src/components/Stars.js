@@ -130,8 +130,8 @@ export function Stars(props) {
         strokeWidth="2"
       />
     );
-  })}
-</svg>
+})}
+      </svg>
     </div>
   );
 }
