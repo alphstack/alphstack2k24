@@ -7,7 +7,6 @@ import NotFound from './notFound';
 
 const SignIn = () => {
     const [email, setEmail] = useState('');
-    const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
     const [confirmPassword, setConfirmPassword] = useState('');
     const { signup, error, isLoading } = useSignup();
@@ -17,7 +16,7 @@ const SignIn = () => {
     const handleSubmit = (e) => {
         e.preventDefault();
 
-        signup(username, email, password, confirmPassword);
+        signup( email, password, confirmPassword);
     };
 
     const { user } = useAuthContext();
@@ -62,6 +61,13 @@ const SignIn = () => {
                 >
                     Sign In
                 </button>
+                <div style={{ marginTop: '0px', textAlign: 'center' }}>
+                    <span>Don't have an account?
+                        <p className='text-blue-400 cursor-pointer' onClick={() => navigate('/signin')}>
+                            Sign Up
+                        </p> 
+                    </span>
+                </div>
             </form>
         </div>
     );

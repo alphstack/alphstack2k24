@@ -4,6 +4,7 @@ import SignUp from './pages/SignUp';
 import SignIn from './pages/SignIn';
 import NavBar from './components/NavBar';
 import NotFound from './pages/notFound';
+import Subscriptions from './pages/Subscriptions';
 function App() {
   return (
     <BrowserRouter>
@@ -23,6 +24,10 @@ function Main() {
         <Route 
           path="/" 
           element={<Home />} 
+        />
+        <Route 
+          path="/subscriptions"
+          element={<Subscriptions/>}
         />
         <Route 
           path="/signin" 
