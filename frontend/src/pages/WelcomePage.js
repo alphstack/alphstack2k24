@@ -1,26 +1,35 @@
-import React from 'react';
-
-const SubscriptionBox = ({ index, discount, details }) => {
-    return (
-        <div className="w-80 h-80 bg-gray-800 border border-gray-700 rounded-lg flex flex-col justify-between items-center text-white p-4 relative">
-            <div className="absolute top-2 right-2 bg-red-500 text-white py-1 px-2 text-xs font-semibold rounded">
-                {discount}
-            </div>
-            <div className="flex-grow flex justify-center items-center">
-                {/* Space for animation or photo */}
-            </div>
-            <button className="w-full bg-gray-700 p-2 rounded text-center transform transition-transform duration-150 ease-in-out hover:bg-gray-600">
-                {details}
-            </button>
-        </div>
-    );
-};
-
+import {
+    Navbar,
+    NavbarBrand,
+    NavbarContent,
+    Link,
+    Button,
+    NavbarMenuToggle,
+    NavbarMenuItem,
+    NavbarMenu,
+    Dropdown,
+    DropdownTrigger,
+    DropdownMenu,
+    DropdownItem,
+    Avatar,
+  } from "@nextui-org/react";
+import { useNavigate, useLocation } from "react-router-dom";
+import mainLogo from'../assets/AlphaStack(1).png';
 const WelcomePage = () => {
+    const navigate = useNavigate();
     return (
         <div className="flex flex-col justify-center items-center bg-gray-100" style={{ height: 'calc(100vh - 96px)' }}>
+            <div class="text-6xl" style={{fontFamily: "Avenir"}}>Turn every task into a milestone with</div>
+            <img  src={mainLogo} alt="alphstack"/>
             <div className="flex space-x-8">
-                h
+            <Button
+              onClick={() => navigate("/signup")}
+              color="primary"
+              variant="ghost"
+              size="lg"
+            >
+              Sign Up
+            </Button>
             </div>
         </div>
     );

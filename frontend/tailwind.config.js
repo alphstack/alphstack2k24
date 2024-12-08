@@ -35,7 +35,7 @@ module.exports = {
               800: "#9a3d12",
               900: "#7c3412",
               DEFAULT: "#fdc374",
-              foreground: "#fdc374",
+              foreground: "#ffffff",
             },
             focus: "#F182F6",
           }, // light theme colors

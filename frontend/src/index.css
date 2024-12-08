@@ -5,3 +5,10 @@
 #tsparticles {
     height:100%;
 }
+
+@font-face {
+    font-family: 'Avenir';
+    src: local('Avenir'), url(./fonts/AvenirNextLTPro-Regular.otf) format('opentype');
+    /* other formats include: 'woff2', 'truetype, 'opentype',
+                              'embedded-opentype', and 'svg' */
+  }
