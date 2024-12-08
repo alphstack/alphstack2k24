@@ -7,8 +7,10 @@ import SwipeableViews from "react-swipeable-views";
 import {CalendarPlus} from 'lucide-react'
 import { useAuthContext } from '../hooks/useAuthContext';
 import cons1 from "../assets/cons3.png"
+import { Error } from './SignIn';
 const VirtualizeSwipeableViews = virtualize(SwipeableViews);
 const Home = () => {
+  const [error, setError] = useState(null);
   const { user } = useAuthContext();
   const [tasks, setTasks] = useState([]);
   const [newTaskTitle, setNewTaskTitle] = useState("");
@@ -158,6 +160,10 @@ const Home = () => {
     const json = await response.json();
     if(!response.ok){
       console.log(json.error);
+      setError(json.error);
+      setTimeout(() =>{
+        setError(null);
+      }, 7000)
     }
     if(response.ok){
       console.log(json.task);
@@ -174,6 +180,7 @@ const Home = () => {
             <div key={key} class="w-screen h-screen bg-white" style={{ backgroundImage: `url(${cons1})`, backgroundSize: 'contain', backgroundPosition: 'left', backgroundRepeat: 'no-repeat'}}>
               <NavBar navType={1} setSlideIndex={setSlideIndex}/>
               <div className={`h-[calc(100vh-96px)] w-screen`}>
+              {error && <Error error={error}/>}
       {currentIndex === 0 && (
         <div className="flex flex-col items-end justify-start h-full pt-10 px-10 sm:px-36">
           <div className="w-full sm:w-2/3 xl:w-1/3 bg-gray-100 p-5 rounded shadow min-h-[125px]">

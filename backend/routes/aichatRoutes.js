@@ -6,7 +6,7 @@ const {
 
 const router = express.Router();
 
-router.post('/sendNewMessage', sendNewMessage);
+router.post('/sendNewMessage', requireAuth, sendNewMessage);
 router.post('/filterByDate', filterByDate);
 
 module.exports = router;
