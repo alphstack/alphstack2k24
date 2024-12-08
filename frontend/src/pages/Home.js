@@ -18,6 +18,26 @@ const Home = () => {
   const [currentIndex, setCurrentIndex] = useState(0);
   const [slideIndex, setSlideIndex] = useState(0);
 
+  function insertTask(newItem) {
+    let array = tasks;
+    let low = 0;
+    let high = array.length;
+  
+    // Perform binary search to find the correct position
+    while (low < high) {
+      const mid = Math.floor((low + high) / 2);
+      if (array[mid]["timestamp"] < newItem["timestamp"]) {
+        low = mid + 1;
+      } else {
+        high = mid;
+      }
+    }
+  
+    // Insert the new item at the found position
+    array.splice(low, 0, newItem);
+    setTasks(array);
+  }
+
   function slideRenderer ({ index, key }) {
       switch (index) {
         case 0:
@@ -32,7 +52,7 @@ const Home = () => {
             <ul>
               {tasks.map((task, index) => (
                 <li key={index} className="flex items-center mb-2 cursor-pointer text-gray-700" onClick={() => openTaskDetails(task)}>
-                  <span>{task.title}</span>
+                  <span>{task.title} {task.timestamp}</span>
                 </li>
               ))}
             </ul>
@@ -70,7 +90,7 @@ const Home = () => {
         onClick={openNewTaskModal}
         className="fixed bottom-5 right-5 px-4 py-2 bg-gray-800 text-white rounded-full shadow-lg hover:bg-gray-700 transition duration-300"
       >
-        <CalendarPlus />
+        <CalendarPlus size={30} />
       </button>
     </div>
             </div>
@@ -88,7 +108,7 @@ const Home = () => {
 
   const addTask = () => {
     if (newTaskTitle) {
-      setTasks([...tasks, { title: newTaskTitle }]);
+      insertTask({ title: newTaskTitle, timestamp: Math.floor(Math.random() * 100) });
       setNewTaskTitle("");
       setIsNewTaskModalOpen(false);
     }
