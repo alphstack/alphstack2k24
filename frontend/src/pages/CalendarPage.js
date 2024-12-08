@@ -166,7 +166,7 @@ const CalendarPage = ({ onClick }) => {
                 isToday 
                   ? 'bg-[#FDC374]/70 text-white rounded-xl shadow-custom backdrop-blur-sm border border-white/30' // transparent portocaliu
                   : isPastDate 
-                  ? 'bg-gray-200 text-gray-500' // Culoare gri pentru datele mai vechi decât azi
+                  ? 'bg-gray-100 text-gray-500' // Culoare gri pentru datele mai vechi decât azi
                   : 'text-slate-800'
               }`}
             >
@@ -264,17 +264,17 @@ const CalendarPage = ({ onClick }) => {
         </div>
         }
 
-      <div className="sticky -top-px z-50 w-full rounded-t-2xl bg-white px-5 pt-7 sm:px-8 sm:pt-8">
+      <div className="w-full rounded-t-2xl bg-white px-5 pt-7 sm:px-10 sm:pt-8">
         <h2 className="text-lg font-semibold text-slate-800">
           Calendar - Starting from {monthNames[today.getMonth()]} {today.getFullYear()}
         </h2>
       </div>
-      <div className="grid w-full grid-cols-7 text-center text-xs font-semibold uppercase text-gray-500 sm:text-sm">
+      <div className="grid px-5 sm:px-10 w-full grid-cols-7 text-center text-xs font-semibold uppercase text-gray-500 sm:text-sm">
         {daysOfWeek.map((day) => (
           <span key={day}>{day}</span>
         ))}
       </div>
-      <div className="mt-1">{generateCalendar}</div>
+      <div className="mt-1 mx-5 sm:mx-10">{generateCalendar}</div>
     </div>
   );
 };
