@@ -17,6 +17,93 @@ const Home = () => {
   const [isNewTaskModalOpen, setIsNewTaskModalOpen] = useState(false);
   const [currentIndex, setCurrentIndex] = useState(0);
   const [slideIndex, setSlideIndex] = useState(0);
+  const [popup, setPopup] = useState({ visible: false, message: '' });
+  const today = new Date();
+
+
+  const handleUndo = async (taskId) =>{
+    const response = await fetch(`${process.env.REACT_APP_API}/api/tasks/markTaskAsUndone`, {
+      method: 'POST',
+      headers: {
+          'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({username: user.username, taskId: taskId})
+    })
+    const json = await response.json();
+    if(!response.ok){
+      console.log(json.error);
+    }
+    if(response.ok){
+      console.log(json.tasks);
+      setTasks(json.tasks);
+    }
+  }
+  const handleDone = async (taskId) =>{
+    const response = await fetch(`${process.env.REACT_APP_API}/api/tasks/markTaskAsDone`, {
+      method: 'POST',
+      headers: {
+          'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({username: user.username, taskId: taskId})
+    })
+    const json = await response.json();
+    if(!response.ok){
+      console.log(json.error);
+    }
+    if(response.ok){
+      console.log(json.tasks);
+      setTasks(json.tasks);
+      setPopup({
+        visible: true,
+        message: `Congratulations! You earned ${json.points || 0} ⭐`,
+      });
+
+      // Ascunde popup-ul după 3 secunde
+      setTimeout(() => {
+        setPopup({ visible: false, message: '' });
+      }, 3000);
+    }
+  }
+  const handleDeleteTask = async (taskId) =>{
+    const response = await fetch(`${process.env.REACT_APP_API}/api/tasks/deleteTask`, {
+      method: 'POST',
+      headers: {
+          'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({username: user.username, taskId: taskId})
+    })
+    const json = await response.json();
+    if(!response.ok){
+      console.log(json.error);
+    }
+    if(response.ok){
+      console.log(json.tasks);
+      setTasks(json.tasks);
+    }
+  }
+
+  const getTasks = async (req, res) =>{
+    const response = await fetch(`${process.env.REACT_APP_API}/api/tasks/getTasks`, {
+      method: 'POST',
+      headers: {
+          'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({username: user.username})
+    })
+    const json = await response.json();
+    if(!response.ok){
+      console.log(json.error);
+    }
+    if(response.ok){
+      console.log(json.tasks);
+      setTasks(json.tasks);
+    }
+  } 
+
+  useEffect(() => {
+    if(user)
+      getTasks();
+  }, [user]);
 
   function insertTask(newItem) {
     let array = tasks;
@@ -37,6 +124,26 @@ const Home = () => {
     array.splice(low, 0, newItem);
     setTasks(array);
   }
+  
+  const addTask = async () => {
+    const response = await fetch(`${process.env.REACT_APP_API}/api/tasks/createTask`, {
+      method: 'POST',
+      headers: {
+          'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({username: user.username, prompt: newTaskTitle})
+    })
+    const json = await response.json();
+    if(!response.ok){
+      console.log(json.error);
+    }
+    if(response.ok){
+      console.log(json.task);
+      insertTask(json.task);
+      setNewTaskTitle("");
+      setIsNewTaskModalOpen(false);
+    }
+  };
 
   function slideRenderer ({ index, key }) {
       switch (index) {
@@ -46,15 +153,64 @@ const Home = () => {
               <NavBar navType={1} setSlideIndex={setSlideIndex}/>
               <div className={`h-[calc(100vh-96px)] w-screen`}>
       {currentIndex === 0 && (
-        <div className="flex flex-col items-center justify-start h-full pt-10">
+        <div className="flex flex-col items-end justify-start h-full pt-10 pr-36">
           <div className="w-1/3 bg-gray-100 p-5 rounded shadow min-h-[125px]">
             <h2 className="text-xl font-semibold mb-4 text-gray-800">My Tasks</h2>
             <ul>
-              {tasks.map((task, index) => (
-                <li key={index} className="flex items-center mb-2 cursor-pointer text-gray-700" onClick={() => openTaskDetails(task)}>
-                  <span>{task.title} {task.timestamp}</span>
-                </li>
-              ))}
+              {tasks.map((task, index) => {
+                const isPastDate = new Date(task.taskDeadline) < today;
+                return(
+                <div className='flex flex-row justify-between items-center'>
+                  <li key={index} className="flex items-center mb-2 cursor-pointer text-gray-700" onClick={() => openTaskDetails(task)}>
+                    <span>{task.taskEmoji}</span> <span>{task.taskName} <span className={` ${task.completed ? 'text-green-500' : 'text-red-500'}`}>{task.taskDeadline}</span></span>
+                  </li>
+                  <div className="flex items-center space-x-1">
+                      </div>
+                      <div className="flex items-center space-x-2">
+                        {/* Buton pentru Mark as Done/Undo */}
+                        <button
+                          className={`rounded px-2 py-1 text-xs font-semibold ${
+                            task.completed
+                              ? 'bg-green-100 text-green-800'
+                              : isPastDate && !task.completed
+                              ? 'bg-red-700 text-white' // Roșu închis pentru taskurile vechi nerealizate
+                              : 'bg-red-100 text-red-800'
+                          }`}
+                          onClick={() =>
+                            task.completed
+                              ? handleUndo(task.taskId)
+                              : isPastDate && !task.completed
+                              ? null // Nu se poate face Mark as Done pentru task-urile vechi nerealizate
+                              : handleDone(task.taskId)
+                          }
+                        >
+                          {task.completed
+                            ? 'Undo'
+                            : isPastDate && !task.completed
+                            ? 'Failed' // textul schimbat pentru task-urile vechi nerealizate
+                            : 'Mark as Done'}
+                        </button>
+                        {task.completed &&
+                        <button
+                          className="text-yellow-500 hover:text-yellow-700"
+                          title={`Set Points (${task.points || 0})`}
+                        >
+                          ⭐ {task.points || 0}
+                        </button>}
+                        {/* Icon pentru ștergere */}
+                        {!task.completed && !isPastDate && (
+                          <button
+                            className="text-gray-400 hover:text-gray-700"
+                            onClick={() => handleDeleteTask(task.taskId)}
+                            title="Delete Task"
+                          >
+                            🗑️
+                          </button>
+                        )}
+                      </div>
+                </div>
+                  );
+                })}
             </ul>
           </div>
         </div>
@@ -105,14 +261,6 @@ const Home = () => {
     }
   
   const modalRef = useRef();
-
-  const addTask = () => {
-    if (newTaskTitle) {
-      insertTask({ title: newTaskTitle, timestamp: Math.floor(Math.random() * 100) });
-      setNewTaskTitle("");
-      setIsNewTaskModalOpen(false);
-    }
-  };
 
   const openTaskDetails = (task) => {
     setSelectedTask(task);

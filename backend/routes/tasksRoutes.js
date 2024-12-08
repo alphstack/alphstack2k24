@@ -4,7 +4,8 @@ const{
     getTasks,
     markTaskAsDone,
     markTaskAsUndone,
-    deleteTask
+    deleteTask,
+    countPoints
 }=require('../controllers/tasksController')
 
 const router = express.Router();
@@ -14,5 +15,6 @@ router.post('/getTasks', getTasks);
 router.post('/markTaskAsDone', markTaskAsDone);
 router.post('/markTaskAsUndone', markTaskAsUndone);
 router.post('/deleteTask', deleteTask);
+router.post('/countPoints', countPoints);
 
 module.exports = router;

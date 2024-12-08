@@ -187,7 +187,30 @@ const deleteTask = async (req, res) =>{
     }
 }
 
+const countPoints = async (req, res) =>{
+    try{
+        const {username} = req.body;
+        if(!username)
+            return res.status(400).json("Username invalid!");
+
+        const user = await userModel.findOne({username}).select('tasks');
+        let points = 0;
+        console.log(user);
+
+        for(let i = 0; i < user.tasks.length; i++){
+            if(user.tasks[i].completed){
+                points += parseInt(user.tasks[i].points);
+            }
+        }
+        res.status(200).json({points});
+    }catch(error){
+        console.error(error.message);
+        return res.status(400).json(error.message);
+    }
+}
+
 module.exports={
+    countPoints,
     getTasks,
     createTask,
     markTaskAsDone,
