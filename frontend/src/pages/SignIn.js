@@ -1,9 +1,23 @@
 import React, { useState } from 'react';
-import {Input} from "@nextui-org/react";
+import {Input, Snippet} from "@nextui-org/react";
 import {useNavigate} from 'react-router-dom';
 import { useSignin } from "../hooks/useSignin";
 import { useAuthContext } from '../hooks/useAuthContext';
 import NotFound from './notFound';
+
+export const Error = ({error}) => {
+    return (
+    <Snippet className="anim-snippet" variant="shadow" hideCopyButton hideSymbol style={{position:'fixed', right: 0, zIndex:'99999', margin:'15px', padding:'10px'}}>
+        <div className='snippet-notification'>
+        <svg class="crossmark" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 52 52">
+            <circle class="crossmark_circle" cx="26" cy="26" r="25" fill="none"/>
+            <path class="crossmark_check" fill="none" d="M14.1 14.1l23.8 23.8 m0,-23.8 l-23.8,23.8"/>
+        </svg>
+        <p>{error}</p>
+        </div>
+    </Snippet>
+    );
+}
 
 const SignIn = () => {
     const [email, setEmail] = useState('');
@@ -26,6 +40,7 @@ const SignIn = () => {
 
     return (
         <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center'}} className='mt-[15vh]'>
+            {error && <Error error={error}/>}
             <form onSubmit={handleSubmit} 
             className='flex flex-col gap-3'
             style={{ border: '2px solid #DCDCDC', padding: '30px', borderRadius: '15px', width: '400px' }}>

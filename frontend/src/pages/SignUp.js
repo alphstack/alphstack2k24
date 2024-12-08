@@ -4,6 +4,7 @@ import {useNavigate} from 'react-router-dom';
 import { useSignup } from "../hooks/useSignup";
 import { useAuthContext } from '../hooks/useAuthContext';
 import NotFound from './notFound';
+import { Error } from './SignIn';
 
 const SignUp = () => {
     const [email, setEmail] = useState('');
@@ -27,6 +28,7 @@ const SignUp = () => {
 
     return (
         <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center'}} className='mt-[15vh]'>
+            {error && <Error error={error}/>}
             <form onSubmit={handleSubmit} 
             className='flex flex-col gap-3'
             style={{ border: '2px solid #DCDCDC', padding: '30px', borderRadius: '15px', width: '400px' }}>
