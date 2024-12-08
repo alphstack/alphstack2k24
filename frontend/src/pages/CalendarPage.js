@@ -139,7 +139,7 @@ const CalendarPage = ({ onClick }) => {
             year === today.getFullYear();
           
           // Verificăm dacă data este mai veche decât data de azi
-          const isPastDate = new Date(year, month, day) < today;
+          const isPastDate = new Date(year, month, day, 23, 59, 59) < new Date();
       
           // Filtrăm taskurile care au deadline-ul în acea zi
           const dailyEvents = events.filter((e) => {
@@ -195,47 +195,49 @@ const CalendarPage = ({ onClick }) => {
                         <span>{event.taskName}</span>
                       </div>
                       <div className="flex items-center space-x-2">
-                        {/* Buton pentru Mark as Done/Undo */}
-                        <button
-                          className={`rounded px-2 py-1 text-xs font-semibold ${
-                            event.completed
-                              ? 'bg-green-100 text-green-800'
-                              : isPastDate && !event.completed
-                              ? 'bg-red-700 text-white' // Roșu închis pentru taskurile vechi nerealizate
-                              : 'bg-red-100 text-red-800'
-                          }`}
-                          onClick={() =>
-                            event.completed
-                              ? handleUndo(event.taskId)
-                              : isPastDate && !event.completed
-                              ? null // Nu se poate face Mark as Done pentru task-urile vechi nerealizate
-                              : handleDone(event.taskId)
-                          }
-                        >
-                          {event.completed
-                            ? 'Undo'
-                            : isPastDate && !event.completed
-                            ? 'Failed' // textul schimbat pentru task-urile vechi nerealizate
-                            : 'Mark as Done'}
-                        </button>
-                        {event.completed &&
-                        <button
-                          className="text-yellow-500 hover:text-yellow-700"
-                          title={`Set Points (${event.points || 0})`}
-                        >
-                          ⭐ {event.points || 0}
-                        </button>}
-                        {/* Icon pentru ștergere */}
-                        {!event.completed && !isPastDate && (
-                          <button
-                            className="text-gray-400 hover:text-gray-700"
-                            onClick={() => handleDeleteTask(event.taskId)}
-                            title="Delete Task"
-                          >
-                            🗑️
-                          </button>
-                        )}
-                      </div>
+  {event.completed && !isPastDate && (
+    <button
+      className="rounded px-2 py-1 text-xs font-semibold bg-green-100 text-green-800"
+      onClick={() => handleUndo(event.taskId)}
+    >
+      Undo
+    </button>
+  )}
+  {!event.completed && !isPastDate && (
+    <button
+      className={`rounded px-2 py-1 text-xs font-semibold ${
+        isPastDate
+          ? 'bg-red-700 text-white'
+          : 'bg-red-100 text-red-800'
+      }`}
+      onClick={() =>
+        isPastDate
+          ? null
+          : handleDone(event.taskId)
+      }
+    >
+      {isPastDate ? 'Failed' : 'Mark as Done'}
+    </button>
+  )}
+  {event.completed && (
+    <button
+      className="text-yellow-500 hover:text-yellow-700"
+      title={`Set Points (${event.points || 0})`}
+    >
+      ⭐ {event.points || 0}
+    </button>
+  )}
+  {!event.completed && !isPastDate && (
+    <button
+      className="text-gray-400 hover:text-gray-700"
+      onClick={() => handleDeleteTask(event.taskId)}
+      title="Delete Task"
+    >
+      🗑️
+    </button>
+  )}
+</div>
+
                     </div>
                   );
                 })}

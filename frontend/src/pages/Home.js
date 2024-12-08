@@ -189,47 +189,49 @@ const Home = () => {
                   <div className="flex items-center space-x-1">
                       </div>
                       <div className="flex items-center space-x-2">
-                        {/* Buton pentru Mark as Done/Undo */}
+                      {task.completed && !isPastDate && (
+                        <button
+                          className="rounded px-2 py-1 text-xs font-semibold bg-green-100 text-green-800"
+                          onClick={() => handleUndo(task.taskId)}
+                        >
+                          Undo
+                        </button>
+                      )}
+                      {!task.completed && !isPastDate && (
                         <button
                           className={`rounded px-2 py-1 text-xs font-semibold ${
-                            task.completed
-                              ? 'bg-green-100 text-green-800'
-                              : isPastDate && !task.completed
-                              ? 'bg-red-700 text-white' // Roșu închis pentru taskurile vechi nerealizate
+                            isPastDate
+                              ? 'bg-red-700 text-white'
                               : 'bg-red-100 text-red-800'
                           }`}
                           onClick={() =>
-                            task.completed
-                              ? handleUndo(task.taskId)
-                              : isPastDate && !task.completed
-                              ? null // Nu se poate face Mark as Done pentru task-urile vechi nerealizate
+                            isPastDate
+                              ? null
                               : handleDone(task.taskId)
                           }
                         >
-                          {task.completed
-                            ? 'Undo'
-                            : isPastDate && !task.completed
-                            ? 'Failed' // textul schimbat pentru task-urile vechi nerealizate
-                            : 'Mark as Done'}
+                          {isPastDate ? 'Failed' : 'Mark as Done'}
                         </button>
-                        {task.completed &&
+                      )}
+                      {task.completed && (
                         <button
                           className="text-yellow-500 hover:text-yellow-700"
                           title={`Set Points (${task.points || 0})`}
                         >
                           ⭐ {task.points || 0}
-                        </button>}
-                        {/* Icon pentru ștergere */}
-                        {!task.completed && !isPastDate && (
-                          <button
-                            className="text-gray-400 hover:text-gray-700"
-                            onClick={() => handleDeleteTask(task.taskId)}
-                            title="Delete Task"
-                          >
-                            🗑️
-                          </button>
-                        )}
-                      </div>
+                        </button>
+                      )}
+                      {!task.completed && !isPastDate && (
+                        <button
+                          className="text-gray-400 hover:text-gray-700"
+                          onClick={() => handleDeleteTask(task.taskId)}
+                          title="Delete Task"
+                        >
+                          🗑️
+                        </button>
+                      )}
+                    </div>
+
                 </div>
                   );
                 })}
