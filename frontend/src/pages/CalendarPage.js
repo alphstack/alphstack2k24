@@ -8,6 +8,7 @@ const monthNames = [
 ];
 
 const CalendarPage = ({ onClick }) => {
+  const [popup, setPopup] = useState({ visible: false, message: '' });
   const { user } = useAuthContext();
   const today = new Date();
   const dayRefs = useRef([]);
@@ -67,6 +68,15 @@ const CalendarPage = ({ onClick }) => {
     if(response.ok){
       console.log(json.tasks);
       setEvents(json.tasks);
+      setPopup({
+        visible: true,
+        message: `Congratulations! You earned ${json.points || 0} ⭐`,
+      });
+
+      // Ascunde popup-ul după 3 secunde
+      setTimeout(() => {
+        setPopup({ visible: false, message: '' });
+      }, 3000);
     }
   }
   const handleDeleteTask = async (taskId) =>{
@@ -208,6 +218,13 @@ const CalendarPage = ({ onClick }) => {
                             ? 'Failed' // textul schimbat pentru task-urile vechi nerealizate
                             : 'Mark as Done'}
                         </button>
+                        {event.completed &&
+                        <button
+                          className="text-yellow-500 hover:text-yellow-700"
+                          title={`Set Points (${event.points || 0})`}
+                        >
+                          ⭐ {event.points || 0}
+                        </button>}
                         {/* Icon pentru ștergere */}
                         {!event.completed && !isPastDate && (
                           <button
@@ -241,6 +258,12 @@ const CalendarPage = ({ onClick }) => {
 
   return (
     <div className="calendar-container max-h-full overflow-y-scroll rounded-t-2xl bg-white pb-10 text-slate-800 shadow-xl">
+        {popup.visible &&
+        <div className="absolute bottom-10 left-1/2 z-50 animintr transform -translate-x-1/2 bg-blue-500 text-white p-4 rounded-lg shadow-md">
+          {popup.message}
+        </div>
+        }
+
       <div className="sticky -top-px z-50 w-full rounded-t-2xl bg-white px-5 pt-7 sm:px-8 sm:pt-8">
         <h2 className="text-lg font-semibold text-slate-800">
           Calendar - Starting from {monthNames[today.getMonth()]} {today.getFullYear()}

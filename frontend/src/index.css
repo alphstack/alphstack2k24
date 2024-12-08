@@ -12,3 +12,18 @@
     /* other formats include: 'woff2', 'truetype, 'opentype',
                               'embedded-opentype', and 'svg' */
   }
+
+@keyframes fadeIn {
+    0% {
+        margin-right: -200px;
+        opacity: 0;
+    }
+    100% {
+        margin-right: 0;
+        opacity: 1;
+    }
+}
+
+.animintr{
+    animation: fadeIn 1s ease-in-out;
+}

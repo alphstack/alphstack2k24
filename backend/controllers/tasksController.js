@@ -106,8 +106,6 @@ const markTaskAsDone = async (req, res) => {
 
         const task = user.tasks.find(t => t.taskId === taskId).taskName;
 
-        console.log("Total points for tasks on the same date:", totalPoints);
-
         const completion = await client.chat.completions.create({
             messages: [{role: "system", content: "You are going to receive a task, you have to rate it on a scale of 1-3 based on difficulty. Output the number"}, {role: "user", content: task}],
             model: "gpt-4o-mini"
@@ -121,12 +119,12 @@ const markTaskAsDone = async (req, res) => {
         const updatedUser = await userModel.findOneAndUpdate(
             { username, "tasks.taskId": taskId },
             { 
-                $set: { "tasks.$.completed": true }, 
+                $set: { "tasks.$.completed": true, "tasks.$.points": input }, 
             },
             { new: true }
         );
         
-        res.status(200).json({ tasks: updatedUser.tasks });
+        res.status(200).json({ tasks: updatedUser.tasks, points: input });
 
     } catch (error) {
         console.error(error.message);
