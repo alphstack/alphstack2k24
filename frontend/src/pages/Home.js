@@ -19,7 +19,29 @@ const Home = () => {
   const [slideIndex, setSlideIndex] = useState(0);
   const [popup, setPopup] = useState({ visible: false, message: '' });
   const today = new Date();
+  const [puncte, setPuncte] = useState(0);
 
+  const countPoints = async() =>{
+      const response = await fetch(`${process.env.REACT_APP_API}/api/tasks/countPoints`, {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({username: user.username})
+      })
+      const json = await response.json();
+      if(!response.ok)
+        console.log(json.error);
+      if(response.ok){
+        setPuncte(json.points);
+        console.log(json.points);
+      }
+  }
+
+  useEffect(() =>{
+    if(user)
+      countPoints();  
+  }, [user])
 
   const handleUndo = async (taskId) =>{
     const response = await fetch(`${process.env.REACT_APP_API}/api/tasks/markTaskAsUndone`, {
@@ -254,7 +276,7 @@ const Home = () => {
         case 1:
         return (
           <div key={key} class="w-screen h-screen bg-black overflow-y-hidden">
-            <StarsComponent particleAmount={100}/>
+            <StarsComponent particleAmount={puncte}/>
           </div>
         )
       }
