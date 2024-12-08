@@ -42,7 +42,7 @@ export const StarsComponent = ({particleAmount}) => {
     },
     particles: {
       color: { value: "#fdc374" },
-      stroke: { width: 1.5, color: "#ffffff", opacity: 0.4 },
+      // stroke: { width: 1.5, color: "#ffffff", opacity: 0.4 },
       links: { color: "#fff8ed", distance: 150, enable: true, opacity: 0.5, width: 1 },
       move: {
         direction: "none",
@@ -56,7 +56,7 @@ export const StarsComponent = ({particleAmount}) => {
         density: { enable: false },
         value: particleAmount, // Aici trebuie să se actualizeze dinamic
       },
-      opacity: { value: { min: 0.1, max: 0.5 } },
+      opacity: { value: { min: 0.15, max: 0.5 } },
       shape: { type: "star" },
       size: { value: { min: 3, max: 10 } },
     },

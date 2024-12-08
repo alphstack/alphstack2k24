@@ -175,8 +175,8 @@ const Home = () => {
               <NavBar navType={1} setSlideIndex={setSlideIndex}/>
               <div className={`h-[calc(100vh-96px)] w-screen`}>
       {currentIndex === 0 && (
-        <div className="flex flex-col items-end justify-start h-full pt-10 pr-36">
-          <div className="w-1/3 bg-gray-100 p-5 rounded shadow min-h-[125px]">
+        <div className="flex flex-col items-end justify-start h-full pt-10 px-10 sm:px-36">
+          <div className="w-full sm:w-2/3 xl:w-1/3 bg-gray-100 p-5 rounded shadow min-h-[125px]">
             <h2 className="text-xl font-semibold mb-4 text-gray-800">My Tasks</h2>
             <ul>
               {tasks.map((task, index) => {
