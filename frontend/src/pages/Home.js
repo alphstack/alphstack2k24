@@ -6,8 +6,8 @@ import React, { useState, useEffect, useRef } from "react";
 import SwipeableViews from "react-swipeable-views";
 import {CalendarPlus} from 'lucide-react'
 import { useAuthContext } from '../hooks/useAuthContext';
+import cons1 from "../assets/cons3.png"
 const VirtualizeSwipeableViews = virtualize(SwipeableViews);
-
 const Home = () => {
   const { user } = useAuthContext();
   const [tasks, setTasks] = useState([]);
@@ -42,7 +42,7 @@ const Home = () => {
       switch (index) {
         case 0:
           return (
-            <div key={key} class="w-screen h-screen bg-white">
+            <div key={key} class="w-screen h-screen bg-white" style={{ backgroundImage: `url(${cons1})`, backgroundSize: 'contain', backgroundPosition: 'left', backgroundRepeat: 'no-repeat'}}>
               <NavBar navType={1} setSlideIndex={setSlideIndex}/>
               <div className={`h-[calc(100vh-96px)] w-screen`}>
       {currentIndex === 0 && (
