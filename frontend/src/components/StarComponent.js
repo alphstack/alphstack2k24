@@ -58,6 +58,11 @@ export const StarsComponent = ({particleAmount}) => {
         color: {
           value: "#fdc374",
         },
+        stroke: {
+          width: 1.5, // Thickness of the outline
+          color: "#ffffff", // Outline color
+          opacity: 0.4,
+        },
         links: {
           color: "#fff8ed",
           distance: 150,
@@ -85,7 +90,7 @@ export const StarsComponent = ({particleAmount}) => {
           value: { min: 0.1, max:0.5 },
         },
         shape: {
-          type: "circle",
+          type: "star", // Use the "star" shape
         },
         size: {
           value: { min: 3, max: 10 },
