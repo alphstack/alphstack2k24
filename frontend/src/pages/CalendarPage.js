@@ -244,7 +244,7 @@ const CalendarPage = ({ onClick }) => {
 
     
               {index === 0 || calendarDays[index - 1].month !== month ? (
-                <span className="absolute bottom-2 left-2 w-full text-sm font-semibold text-slate-500 sm:text-base lg:text-lg">
+                <span className="absolute bottom-2 left-2 w-full text-xs font-semibold text-slate-500 sm:text-base lg:text-lg">
                   {monthNames[month]} {year}
                 </span>
               ) : null}
@@ -264,8 +264,8 @@ const CalendarPage = ({ onClick }) => {
         </div>
         }
 
-      <div className="w-full rounded-t-2xl bg-white px-5 pt-7 sm:px-10 sm:pt-8">
-        <h2 className="text-lg font-semibold text-slate-800">
+      <div className="w-full rounded-t-2xl bg-white px-5 pt-7 pb-10 sm:px-10 sm:pt-8">
+        <h2 className="text-2xl font-semibold text-slate-800">
           Calendar - Starting from {monthNames[today.getMonth()]} {today.getFullYear()}
         </h2>
       </div>
