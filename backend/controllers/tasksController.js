@@ -40,6 +40,12 @@ content:`From the following prompt, extract the taskName, taskDeadline and taskE
 
         const input = completion.choices[0].message.content
 
+        console.log(input);
+
+        if(input == "Invalid")
+            return res.status(400).json({error:"Invalid task! Make sure you've said a valid task and deadline!"});
+        
+
         const taskNameMatch = input.match(/taskName:\s*"(.*?)"/);
         const taskDeadlineMatch = input.match(/taskDeadline:\s*"(.*?)"/);
         const taskEmojiMatch = input.match(/taskEmoji:\s*"(.*?)"/);
@@ -84,32 +90,50 @@ const getTasks = async (req, res) =>{
     }
 }
 
-const markTaskAsDone = async (req, res) =>{
-    try{
-        const {username, taskId} = req.body;
-        console.log(username, taskId);
+const markTaskAsDone = async (req, res) => {
+    try {
+        const { username, taskId } = req.body;
 
-        if(!username || !taskId)
+        if (!username || !taskId) {
             return res.status(400).json("Username/taskId invalid!");
+        }
 
-        const user = await userModel.findOneAndUpdate(
+        const user = await userModel.findOne({ username, "tasks.taskId": taskId });
+
+        if (!user) {
+            return res.status(404).json({ error: "Task not found or user does not exist." });
+        }
+
+        const task = user.tasks.find(t => t.taskId === taskId).taskName;
+
+        console.log("Total points for tasks on the same date:", totalPoints);
+
+        const completion = await client.chat.completions.create({
+            messages: [{role: "system", content: "You are going to receive a task, you have to rate it on a scale of 1-3 based on difficulty. Output the number"}, {role: "user", content: task}],
+            model: "gpt-4o-mini"
+        })
+
+        const input = completion.choices[0].message.content;
+        console.log(input);
+        
+        console.log("Task found:", task);
+
+        const updatedUser = await userModel.findOneAndUpdate(
             { username, "tasks.taskId": taskId },
             { 
                 $set: { "tasks.$.completed": true }, 
             },
             { new: true }
         );
-        console.log(user);
-        if (!user) {
-            return res.status(404).json({ error: "Task not found or user does not exist." });
-        }
+        
+        res.status(200).json({ tasks: updatedUser.tasks });
 
-        res.status(200).json({tasks: user.tasks});
-    }catch(error){
+    } catch (error) {
         console.error(error.message);
         return res.status(400).json(error.message);
     }
-}
+};
+
 
 const markTaskAsUndone = async (req, res) =>{
     try{
